@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 // import React, { Component, useState } from 'react';
 import Web3 from 'web3';
-import logo from '../logo.png';
 import './App.css';
 import Marketplace from '../abis/Marketplace.json';
 import Navbar from './Navbar'
+import Home from './Home'
+
+// You are accessing the MetaMask window.web3.currentProvider shim. This property is deprecated; use window.ethereum instead. For details, see: https://docs.metamask.io/guide/provider-migration.html#replacing-window-web3
+// MetaMask: 'ethereum.enable()' is deprecated and may be removed in the future. Please use the 'eth_requestAccounts' RPC method instead. For more information, see: https://eips.ethereum.org/EIPS/eip-1102
 
 class App extends Component {
 
-  // const [account, setAccount] = useState('')
+// const [account, setAccount] = useState('')
 
   async componentWillMount() {
     await this.loadWeb3()
@@ -58,33 +61,7 @@ class App extends Component {
     return (
       <div>
         <Navbar account={this.state.account}/>
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto">
-                <a
-                  href="http://www.dappuniversity.com/bootcamp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={logo} className="App-logo" alt="logo" />
-                </a>
-                <h1>Lewis Made a Blockchain</h1>
-                <p>
-                  Edit <code>src/components/App.js</code> and save to reload.
-                </p>
-                <a
-                  className="App-link"
-                  href="http://www.dappuniversity.com/bootcamp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  LEARN BLOCKCHAIN <u><b>NOW! </b></u>
-                </a>
-              </div>
-            </main>
-          </div>
-        </div>
+        <Home />
       </div>
     );
   }
