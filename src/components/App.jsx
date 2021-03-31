@@ -44,8 +44,9 @@ class App extends Component {
         Marketplace.abi,
         networkData.address
       );
-      this.setState({ marketplace });
-      this.setState({ loading: false });
+      this.setState({ marketplace, loading: false });
+      const productCount = await marketplace.methods.productCount().call();
+      console.log(productCount.toString());
     } else {
       window.alert('Marketplace contract not deployed to detected network.');
     }
@@ -59,13 +60,29 @@ class App extends Component {
       products: [],
       loading: true,
     };
+
+    this.createProduct = this.createProduct.bind(this);
+  }
+
+  createProduct(name, price) {
+    this.setState({ loading: true });
+    this.state.marketplace.methods
+      .createProduct(name, price)
+      .send({ from: this.state.account })
+      .once('receipt', (receipt) => {
+        this.setState({ loading: false });
+      });
   }
 
   render() {
     return (
       <div>
         <Navbar account={this.state.account} />
-        {this.state.loading ? <Loader /> : <Main />}
+        {this.state.loading ? (
+          <Loader />
+        ) : (
+          <Main createProduct={this.createProduct} />
+        )}
       </div>
     );
   }
